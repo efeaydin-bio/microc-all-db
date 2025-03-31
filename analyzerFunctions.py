@@ -138,6 +138,10 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     try:
         st.write("📣 Running pyGenomeTracks with command:")
         st.code(" ".join(pyGenomeTracks_command))
+        st.write("📄 Here's the contents of temp_gene_tracks.ini:")
+
+        with open(temp_tracks_path, "r") as f:
+            st.code(f.read(), language="ini")
         subprocess.run(pyGenomeTracks_command, check=True)
         img = mpimg.imread(output_file)
         plt.figure(figsize=(10, 5))

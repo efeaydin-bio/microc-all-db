@@ -99,11 +99,9 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
 
     temp_links_file = tempfile.NamedTemporaryFile(delete=False, mode='w', suffix='.tab')
     for _, row in myDf.iterrows():
-        temp_links_file.write(
-            f"{row['chr']}\t{int(row['start'])}\t{int(row['end'])}\t"
-            f"{row['interChr']}\t{int(row['interStart'])}\t{int(row['interEnd'])}\t"
-            f"1.0\tred\n"  # thickness + color
-        )
+        region1 = f"{row['chr']}:{int(row['start'])}-{int(row['end'])}"
+        region2 = f"{row['interChr']}:{int(row['interStart'])}-{int(row['interEnd'])}"
+        temp_links_file.write(f"{region1}\t{region2}\t1.0\n")
     temp_links_file.close()
 
     new_bed_file = coding_genes.copy()
@@ -124,7 +122,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         # enhancer links
         temp_tracks_file.write("[enhancer_links]\n")
         temp_tracks_file.write(f"file = {temp_links_file.name}\n")
-        temp_tracks_file.write("file_type = links\n")
+        temp_tracks_file.write("file_type = linksBED\n")
         temp_tracks_file.write("line_width = 3\n")
         temp_tracks_file.write("title = Enhancer Links\n")
         temp_tracks_file.write("height = 5\n\n")

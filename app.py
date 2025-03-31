@@ -12,6 +12,16 @@ from analyzerFunctions import *
 import base64
 import os
 
+# fix version issue
+import sys
+
+def pip_install(pkg):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", pkg])
+
+# Example: install a specific matplotlib version
+pip_install("matplotlib<=3.6.2")
+pip_install("pyGenomeTracks")
+
 
 # -------- Configuration --------
 REFERENCE_MANUAL_PATH = os.path.join("static", "reference_manual.pdf")

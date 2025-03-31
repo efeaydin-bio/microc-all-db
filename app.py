@@ -11,6 +11,15 @@ import pandas as pd
 from analyzerFunctions import *
 import base64
 import os
+import sys
+# fix matplotlib version issue
+try:
+    import matplotlib
+    if matplotlib.__version__ > "3.6.2":
+        raise ImportError("Wrong version")
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "matplotlib<=3.6.2"])
+    import matplotlib
 
 # -------- Configuration --------
 REFERENCE_MANUAL_PATH = os.path.join("static", "reference_manual.pdf")

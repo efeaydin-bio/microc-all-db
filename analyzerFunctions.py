@@ -123,7 +123,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("\n")
         # histone h3k27ac
         temp_tracks_file.write("[encode_bigbed]\n")
-        temp_tracks_file.write(f"file = {h3k27ac_path}\n")  #
+        temp_tracks_file.write(f"file = {h3k27ac_path}\n") 
         temp_tracks_file.write("file_type = bed\n")
         temp_tracks_file.write("title = ENCODE bigBed\n")
         temp_tracks_file.write("height = 3\n")
@@ -136,12 +136,9 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("color = red\n")
         temp_tracks_file.write("title = Enhancer Links\n")
         temp_tracks_file.write("height = 5\n\n")
-   
-
-    # 🟡 Third: Append rest of the tracks
-    temp_tracks_file.writelines(lines[1:])
+        #  Third: Append rest of the tracks
         temp_tracks_file.writelines(lines[1:])
-    temp_tracks_file.close()
+        temp_tracks_file.close()
 
     output_file = "output_genome_track.png"
     pyGenomeTracks_command = [

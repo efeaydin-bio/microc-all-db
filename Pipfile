@@ -5,9 +5,9 @@ name = "microc-app"
 
 [packages]
 matplotlib = "==3.6.*"
-pygenometracks >= "3.7"
-streamlit >= "1.30.0"
-pandas >= "1.5.0"
+pygenometracks = ">=3.7"
+streamlit = ">=1.30.0"
+pandas = ">=1.5.0"
 pybedtools = "*"
 bedtools = "*"
 

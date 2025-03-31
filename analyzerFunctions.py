@@ -121,6 +121,13 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         lines = base_tracks.readlines()
         temp_tracks_file.write(lines[0])
         temp_tracks_file.write("\n")
+        # histone h3k27ac
+        temp_tracks_file.write("[encode_bigbed]\n")
+        temp_tracks_file.write(f"file = {h3k27ac_path}\n")  #
+        temp_tracks_file.write("file_type = bed\n")
+        temp_tracks_file.write("title = ENCODE bigBed\n")
+        temp_tracks_file.write("height = 3\n")
+        temp_tracks_file.write("color = black\n\n")
         # enhancer links
         temp_tracks_file.write("[enhancer_links]\n")
         temp_tracks_file.write(f"file = {temp_links_file.name}\n")
@@ -129,13 +136,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("color = red\n")
         temp_tracks_file.write("title = Enhancer Links\n")
         temp_tracks_file.write("height = 5\n\n")
-        # histone h3k27ac
-        temp_tracks_file.write("[encode_bigbed]\n")
-        temp_tracks_file.write(f"file = {h3k27ac_path}\n")  #
-        temp_tracks_file.write("file_type = bed\n")
-        temp_tracks_file.write("title = ENCODE bigBed\n")
-        temp_tracks_file.write("height = 3\n")
-        temp_tracks_file.write("color = black\n\n")
+   
 
     # 🟡 Third: Append rest of the tracks
     temp_tracks_file.writelines(lines[1:])

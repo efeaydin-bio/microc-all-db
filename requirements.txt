@@ -1,2 +1,13 @@
-matplotlib
-pyGenomeTracks
+name: microc-app
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - matplotlib<=3.6.2
+  - pygenometracks
+  - streamlit
+  - pandas
+  - pybedtools
+  - bedtools
+  - pip

@@ -135,9 +135,9 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         "-o", output_file
     ]
 
-    print("myPygenomeTracks command is:")
-    print(pyGenomeTracks_command)
     try:
+        print("myPygenomeTracks command is:")
+        print(pyGenomeTracks_command)
         subprocess.run(pyGenomeTracks_command, check=True)
         img = mpimg.imread(output_file)
         plt.figure(figsize=(10, 5))

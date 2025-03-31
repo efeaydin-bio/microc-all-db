@@ -138,6 +138,17 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         "-o", output_file
     ]
 
+    import matplotlib.patches as mpatches
+
+    # Wrap original Arc class to make it backwards-compatible
+    _original_arc = mpatches.Arc
+    
+    class CompatArc(mpatches.Arc):
+        def __init__(self, xy, width, height, angle=0.0, theta1=0.0, theta2=360.0, **kwargs):
+            super().__init__(xy=xy, width=width, height=height,
+                             angle=angle, theta1=theta1, theta2=theta2, **kwargs)
+    
+    mpatches.Arc = CompatArc  # monkey-patch Arc globally
     try:
         with open(temp_tracks_path, "r") as f:
             st.code(f.read(), language="ini")

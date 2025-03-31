@@ -110,7 +110,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     new_bed_file = new_bed_file.sort_values(by=[new_bed_file.columns[0], new_bed_file.columns[1]])
     new_bed_file.to_csv(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"), index=False, sep="\t", header=False)
 
-    bb_1 = pyBigWig.open("https://www.encodeproject.org/files/ENCFF001JBR/@@download/ENCFF001JBR.bigBed")
+    bb_1 = pyBigWig.open("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27ac.bigWig")
     h3k27ac_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bigBed").name
     bb_1.close()  # Just closes the remote connection
     

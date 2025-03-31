@@ -98,8 +98,17 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     region = f"chr{myDf.iloc[0, 0]}:{int(extended_min_start)}-{int(extended_max_end)}"
 
     temp_links_file = tempfile.NamedTemporaryFile(delete=False, mode='w', suffix='.tab')
+
     for _, row in myDf.iterrows():
-        temp_links_file.write(f"{row['chr']}\t{row['start']}\t{row['end']}\t{row['interChr']}\t{row['interStart']}\t{row['interEnd']}\t1.0\n")
+        temp_links_file.write(
+        f"{row['chr']}\t"
+        f"{int(row['start'])}\t"
+        f"{int(row['end'])}\t"
+        f"{row['interChr']}\t"
+        f"{int(row['interStart'])}\t"
+        f"{int(row['interEnd'])}\t"
+        "1.0\n")
+
     temp_links_file.close()
 
     new_bed_file = coding_genes.copy()

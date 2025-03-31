@@ -97,7 +97,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     extended_min_start, extended_max_end = get_genomic_range(myDf)
     region = f"chr{myDf.iloc[0, 0]}:{int(extended_min_start)}-{int(extended_max_end)}"
 
-     temp_links_file = tempfile.NamedTemporaryFile(delete=False, mode='w', suffix='.tab')
+    temp_links_file = tempfile.NamedTemporaryFile(delete=False, mode='w', suffix='.tab')
     for _, row in myDf.iterrows():
         temp_links_file.write(f"{row['chr']}\t{row['start']}\t{row['end']}\t{row['interChr']}\t{row['interStart']}\t{row['interEnd']}\t1.0\n")
     temp_links_file.close()
@@ -122,6 +122,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write(f"file = {temp_links_file.name}\n")
         temp_tracks_file.write("file_type = links\n")
         temp_tracks_file.write("line_width = 3\n")
+        temp_tracks_file.write("color = red\n")
         temp_tracks_file.write("title = Enhancer Links\n")
         temp_tracks_file.write("height = 5\n\n")
         #  Third: Append rest of the tracks

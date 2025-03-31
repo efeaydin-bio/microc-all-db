@@ -1,6 +1,0 @@
-channels:
-  - defaults
-dependencies:
-  - matplotlib <= 3.6.2
-  - pip:
-    - pyGenomeTracks

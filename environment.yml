@@ -1,9 +1,0 @@
-name: microc-app
-channels:
-  - conda-forge
-  - defaults
-dependencies:
-  - matplotlib<=3.6.2
-  - streamlit
-  - pip:
-    - pyGenomeTracks

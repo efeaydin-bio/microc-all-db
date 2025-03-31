@@ -6,6 +6,8 @@ Created on Tue May 14 11:21:28 2024
 @author: Efe Aydın
 """
 
+import subprocess
+import sys
 def pip_install(pkg):
     subprocess.check_call([sys.executable, "-m", "pip", "install", pkg])
 
@@ -19,9 +21,6 @@ import pandas as pd
 from analyzerFunctions import *
 import base64
 import os
-
-# fix version issue
-import sys
 
 
 

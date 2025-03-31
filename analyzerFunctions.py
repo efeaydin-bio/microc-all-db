@@ -98,7 +98,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     region = f"chr{myDf.iloc[0, 0]}:{int(extended_min_start)}-{int(extended_max_end)}"
 
     temp_links_file = tempfile.NamedTemporaryFile(delete=False, mode='w', suffix='.tab')
-      for _, row in myDf.iterrows():
+    for _, row in myDf.iterrows():
         temp_links_file.write(
             f"{row['chr']}\t{int(row['start'])}\t{int(row['end'])}\t"
             f"{row['interChr']}\t{int(row['interStart'])}\t{int(row['interEnd'])}\t"

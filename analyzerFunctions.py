@@ -110,9 +110,9 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     new_bed_file = new_bed_file.sort_values(by=[new_bed_file.columns[0], new_bed_file.columns[1]])
     new_bed_file.to_csv(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"), index=False, sep="\t", header=False)
 
-    bb = pyBigWig.open("https://www.encodeproject.org/files/ENCFF001JBR/@@download/ENCFF001JBR.bigBed")
-    tmp_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bigBed").name
-    bb.close()  # Just closes the remote connection
+    bb_1 = pyBigWig.open("https://www.encodeproject.org/files/ENCFF001JBR/@@download/ENCFF001JBR.bigBed")
+    h3k27ac_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bigBed").name
+    bb_1.close()  # Just closes the remote connection
     
     gene_tracks_path = os.path.join(TRACKS_DIR, "geneTracks.ini")
     temp_tracks_path = os.path.join(TRACKS_DIR, "temp_gene_tracks.ini")
@@ -121,6 +121,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         lines = base_tracks.readlines()
         temp_tracks_file.write(lines[0])
         temp_tracks_file.write("\n")
+        # enhancer links
         temp_tracks_file.write("[enhancer_links]\n")
         temp_tracks_file.write(f"file = {temp_links_file.name}\n")
         temp_tracks_file.write("file_type = links\n")
@@ -128,6 +129,16 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("color = red\n")
         temp_tracks_file.write("title = Enhancer Links\n")
         temp_tracks_file.write("height = 5\n\n")
+        # histone h3k27ac
+        temp_tracks_file.write("[encode_bigbed]\n")
+        temp_tracks_file.write(f"file = {h3k27ac_path}\n")  #
+        temp_tracks_file.write("file_type = bed\n")
+        temp_tracks_file.write("title = ENCODE bigBed\n")
+        temp_tracks_file.write("height = 3\n")
+        temp_tracks_file.write("color = black\n\n")
+
+    # 🟡 Third: Append rest of the tracks
+    temp_tracks_file.writelines(lines[1:])
         temp_tracks_file.writelines(lines[1:])
     temp_tracks_file.close()
 
@@ -157,7 +168,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         os.remove(output_file)
         os.remove(temp_links_file.name)
         os.remove(temp_tracks_file.name)
-        os.remove(tmp_path)
+        os.remove(h3k27ac_path)
         os.remove(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"))
     except subprocess.CalledProcessError as e:
         st.write(f"Error generating genome track: {e}")

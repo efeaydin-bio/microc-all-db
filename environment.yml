@@ -4,7 +4,7 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - matplotlib<=3.6.2
+  - matplotlib=3.6
   - pygenometracks
   - streamlit
   - pandas

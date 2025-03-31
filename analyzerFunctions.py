@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import os
 import tempfile
-import pyBigWig
 
 # -------------------- Configuration --------------------
 
@@ -109,10 +108,6 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     new_bed_file.insert(7, "thickEnd", 2000)
     new_bed_file = new_bed_file.sort_values(by=[new_bed_file.columns[0], new_bed_file.columns[1]])
     new_bed_file.to_csv(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"), index=False, sep="\t", header=False)
-
-    bb_1 = pyBigWig.open("https://de.cyverse.org/data/ds/iplant/home/efeaydin/h3k27ac.bigWig")
-    h3k27ac_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bigBed").name
-    bb_1.close()  # Just closes the remote connection
     
     gene_tracks_path = os.path.join(TRACKS_DIR, "geneTracks.ini")
     temp_tracks_path = os.path.join(TRACKS_DIR, "temp_gene_tracks.ini")
@@ -121,13 +116,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         lines = base_tracks.readlines()
         temp_tracks_file.write(lines[0])
         temp_tracks_file.write("\n")
-        # histone h3k27ac
-        temp_tracks_file.write("[encode_bigbed]\n")
-        temp_tracks_file.write(f"file = {h3k27ac_path}\n") 
-        temp_tracks_file.write("file_type = bed\n")
-        temp_tracks_file.write("title = ENCODE bigBed\n")
-        temp_tracks_file.write("height = 3\n")
-        temp_tracks_file.write("color = black\n\n")
+
         # enhancer links
         temp_tracks_file.write("[enhancer_links]\n")
         temp_tracks_file.write(f"file = {temp_links_file.name}\n")
@@ -138,7 +127,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("height = 5\n\n")
         #  Third: Append rest of the tracks
         temp_tracks_file.writelines(lines[1:])
-        temp_tracks_file.close()
+    temp_tracks_file.close()
 
     output_file = "output_genome_track.png"
     pyGenomeTracks_command = [
@@ -150,10 +139,6 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     ]
 
     try:
-        st.write("📣 Running pyGenomeTracks with command:")
-        st.code(" ".join(pyGenomeTracks_command))
-        st.write("📄 Here's the contents of temp_gene_tracks.ini:")
-
         with open(temp_tracks_path, "r") as f:
             st.code(f.read(), language="ini")
         subprocess.run(pyGenomeTracks_command, check=True)

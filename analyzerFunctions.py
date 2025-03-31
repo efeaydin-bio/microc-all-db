@@ -101,8 +101,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     for _, row in myDf.iterrows():
         temp_links_file.write(
             f"{row['chr']}\t{int(row['start'])}\t{int(row['end'])}\t"
-            f"{row['interChr']}\t{int(row['interStart'])}\t{int(row['interEnd'])}\t"
-            f"1.0\t\n"
+            f"{row['interChr']}\t{int(row['interStart'])}\t{int(row['interEnd'])}\t1.0\n"
         )
     temp_links_file.close()
 

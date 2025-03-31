@@ -1,3 +1,4 @@
 streamlit
 pyGenomeTracks
 matplotlib
+pybedtools

@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import os
 import tempfile
+import pyBigWig
 
 # -------------------- Configuration --------------------
 
@@ -109,6 +110,10 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     new_bed_file = new_bed_file.sort_values(by=[new_bed_file.columns[0], new_bed_file.columns[1]])
     new_bed_file.to_csv(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"), index=False, sep="\t", header=False)
 
+    bb = pyBigWig.open("https://www.encodeproject.org/files/ENCFF001JBR/@@download/ENCFF001JBR.bigBed")
+    tmp_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bigBed").name
+    bb.close()  # Just closes the remote connection
+    
     gene_tracks_path = os.path.join(TRACKS_DIR, "geneTracks.ini")
     temp_tracks_path = os.path.join(TRACKS_DIR, "temp_gene_tracks.ini")
     temp_tracks_file = open(temp_tracks_path, "w")
@@ -152,6 +157,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         os.remove(output_file)
         os.remove(temp_links_file.name)
         os.remove(temp_tracks_file.name)
+        os.remove(tmp_path)
         os.remove(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"))
     except subprocess.CalledProcessError as e:
         st.write(f"Error generating genome track: {e}")

@@ -126,7 +126,6 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write(f"file = {temp_links_file.name}\n")
         temp_tracks_file.write("file_type = links\n")
         temp_tracks_file.write("line_width = 3\n")
-        temp_tracks_file.write("color = red\n")
         temp_tracks_file.write("title = Enhancer Links\n")
         temp_tracks_file.write("height = 5\n\n")
         #  Third: Append rest of the tracks

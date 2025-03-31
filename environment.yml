@@ -1,12 +1,9 @@
 name: microc-app
 channels:
   - conda-forge
-  - bioconda
   - defaults
 dependencies:
   - matplotlib<=3.6.2
   - streamlit
-  - pygenometracks
-  - pybedtools
-  - bedtools  # needed backend for pybedtools
-  - pip
+  - pip:
+    - pyGenomeTracks

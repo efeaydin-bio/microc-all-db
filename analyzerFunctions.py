@@ -38,12 +38,12 @@ all_loops.iloc[:, [1, 2, 4, 5]] = all_loops.iloc[:, [1, 2, 4, 5]].astype(int)
 
 # -------------------- Functions --------------------
 def fetch_bigwig_locally(url):
-tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".bw")
-with requests.get(url, stream=True) as r:
-    r.raise_for_status()
-    with open(tmp.name, 'wb') as f:
-        shutil.copyfileobj(r.raw, f)
-return tmp.name
+    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".bw")
+    with requests.get(url, stream=True) as r:
+        r.raise_for_status()
+        with open(tmp.name, 'wb') as f:
+            shutil.copyfileobj(r.raw, f)
+    return tmp.name
 
 def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     gene_index = 9 - cre_index

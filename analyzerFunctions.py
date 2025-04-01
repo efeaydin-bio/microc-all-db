@@ -117,7 +117,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     new_bed_file.insert(6, "thickStart", 1000)
     new_bed_file.insert(7, "thickEnd", 2000)
     new_bed_file.columns.values[8] = "itemRgb"
-    new_bed_file.to_csv(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"), index=None, sep="\t", header=None)
+    new_bed_file.to_csv(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"), index=False, sep="\t", header=False)
     
     gene_tracks_path = os.path.join(TRACKS_DIR, "geneTracks.ini")
     temp_tracks_path = os.path.join(TRACKS_DIR, "temp_gene_tracks.ini")

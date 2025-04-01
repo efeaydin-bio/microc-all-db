@@ -115,25 +115,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     new_bed_file.loc[new_bed_file.iloc[:, 3] == gene_of_interest, new_bed_file.columns[6]] = "255,0,0"
     new_bed_file.insert(6, "thickStart", 1000)
     new_bed_file.insert(7, "thickEnd", 2000)
-    # Add missing BED12 columns
-    new_bed_file["blockCount"] = 1
-    new_bed_file["blockSizes"] = new_bed_file.iloc[:, 2] - new_bed_file.iloc[:, 1]
-    new_bed_file["blockStarts"] = 0
 
-    # Reorder columns to strict BED12 format
-    new_bed_file = new_bed_file[[
-    new_bed_file.columns[0],  # chrom
-    new_bed_file.columns[1],  # start
-    new_bed_file.columns[2],  # end
-    new_bed_file.columns[3],  # name
-    new_bed_file.columns[4],  # score
-    new_bed_file.columns[5],  # strand
-    "thickStart",
-    "thickEnd",
-    new_bed_file.columns[8],  # itemRgb (was column 6 originally)
-    "blockCount",
-    "blockSizes",
-    "blockStarts"]]
     new_bed_file = new_bed_file.sort_values(by=[new_bed_file.columns[0], new_bed_file.columns[1]])
     new_bed_file.to_csv(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"), index=False, sep="\t", header=False)
     

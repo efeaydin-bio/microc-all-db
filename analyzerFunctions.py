@@ -224,7 +224,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("title = Genes\n")
         #temp_tracks_file.write("fontsize = 12\n")
         temp_tracks_file.write("arrow_interval = 5\n")
-        temp_tracks_file.write("prefered_name = none\n")
+        temp_tracks_file.write("labels = false\n\n")
         #temp_tracks_file.write("gene_rows = 10\n\n")
         # Promoters
         temp_tracks_file.write("[promoters]\n")

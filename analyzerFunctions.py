@@ -112,7 +112,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
 
     temp_links_file.close()
 
-    new_bed_file = coding_genes[[0, 1, 2, 3, 6, 5]].copy()
+    new_bed_file = coding_genes.iloc[:, [0, 1, 2, 3, 6, 5]].copy()
     new_bed_file.loc[new_bed_file.iloc[:, 3] == gene_of_interest, new_bed_file.columns[4]] = "255,0,0"
 
     new_bed_file = new_bed_file.sort_values(by=[new_bed_file.columns[0], new_bed_file.columns[1]])

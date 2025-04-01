@@ -153,15 +153,15 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
 
     # h3k4me1
     h3k4me1_intervals = h3k4me1.intervals(chrom, start, end)
-    temp_h34me1_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
-    with open(temp_h34me1_path, "w") as out:
+    temp_h3k4me1_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
+    with open(temp_h3k4me1_path, "w") as out:
         for interval in h3k4me1_intervals:
             out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
 
     # h3k4me3
     h3k4me3_intervals = h3k4me3.intervals(chrom, start, end)
-    temp_h34me3_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
-    with open(temp_h34me3_path, "w") as out:
+    temp_h3k4me3_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
+    with open(temp_h3k4me3_path, "w") as out:
         for interval in h3k4me3_intervals:
             out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
     

@@ -155,7 +155,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("file = tracks/tempCodingGenes.bed\n")
         temp_tracks_file.write("file_type = bed\n")
         temp_tracks_file.write("color = red\n")
-        temp_tracks_file.write("height = 10\n")
+        temp_tracks_file.write("height = 2\n")
         temp_tracks_file.write("overlay_previous = no\n")
         temp_tracks_file.write("title = Genes\n")
         temp_tracks_file.write("fontsize = 12\n")

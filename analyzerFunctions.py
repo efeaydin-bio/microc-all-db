@@ -149,6 +149,8 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     ]
 
     try:
+        st.write("pyGenomeTracks version:", pygenometracks.__version__)
+        st.write("matplotlib backend:", matplotlib.get_backend())
         subprocess.run(pyGenomeTracks_command, check=True)
         img = mpimg.imread(output_file)
         plt.figure(figsize=(10, 5))

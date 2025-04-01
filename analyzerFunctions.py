@@ -119,6 +119,10 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     new_bed_file.insert(7, "thickEnd", 2000)
     new_bed_file.to_csv(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"), index=False, sep="\t", header=False)
 
+    only_gene = coding_genes[coding_genes.iloc[:, 3] == gene_of_interest].copy()
+    only_gene = only_gene.iloc[:, [0, 1, 2, 3, 4, 5]]  # BED6
+    only_gene.to_csv("tracks/onlyTargetGene.bed", sep="\t", index=False, header=False)
+
     gene_tracks_path = os.path.join(TRACKS_DIR, "geneTracks.ini")
     temp_tracks_path = os.path.join(TRACKS_DIR, "temp_gene_tracks.ini")
     temp_tracks_file = open(temp_tracks_path, "w")
@@ -145,6 +149,17 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("fontsize = 12\n")
         temp_tracks_file.write("arrow_interval = 5\n")
         temp_tracks_file.write("gene_rows = 10\n\n")
+        # only gene
+        temp_tracks_file.write("[genes]\n")
+        temp_tracks_file.write("file = tracks/onlyTargetGene.bed\n")
+        temp_tracks_file.write("file_type = bed\n")
+        temp_tracks_file.write("color = red\n")
+        temp_tracks.file.write("overlay_previous = yes")
+        temp_tracks_file.write("height = 10\n")
+        temp_tracks_file.write("title = \n")
+        temp_tracks_file.write("fontsize = 12\n")
+        temp_tracks_file.write("arrow_interval = 5\n")
+        temp_tracks_file.write("gene_rows = 10\n\n")
     temp_tracks_file.close()
 
     output_file = "output_genome_track.png"
@@ -168,6 +183,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         os.remove(temp_links_file.name)
         os.remove(temp_tracks_file.name)
         os.remove(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"))
+        os.remove(os.path.join(TRACKS_DIR, "onlyTargetGene.bed"))
     except subprocess.CalledProcessError as e:
         st.write(f"Error generating genome track: {e}")
 

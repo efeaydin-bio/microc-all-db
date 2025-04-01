@@ -153,7 +153,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         "pyGenomeTracks",
         "--tracks", temp_tracks_path,
         "--region", region,
-        "--dpi", "100",
+        "--dpi", "300",
         "-o", output_file
     ]
 
@@ -161,8 +161,6 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         st.write("Matplotlib version:", matplotlib.__version__)
         subprocess.run(pyGenomeTracks_command, check=True)
         img = mpimg.imread(output_file)
-        st.write("Image shape:", img.shape)
-        st.write("Sample pixel [middle of image]:", img[img.shape[0]//2, img.shape[1]//2])
         plt.figure(figsize=(10, 5))
         plt.imshow(img)
         plt.axis('off')

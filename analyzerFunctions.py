@@ -116,7 +116,6 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     new_bed_file.loc[new_bed_file.iloc[:, 3] == gene_of_interest, new_bed_file.columns[6]] = "255,0,0"
     new_bed_file.insert(6, "thickStart", 1000)
     new_bed_file.insert(7, "thickEnd", 2000)
-    new_bed_file.iloc[:, 0] = "chr" + new_bed_file.iloc[:, 0].astype(str)
     new_bed_file.to_csv(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"), index=False, sep="\t", header=False)
 
     
@@ -158,8 +157,6 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     ]
 
     try:
-        st.write("Column data types of new_bed_file:")
-        st.dataframe(new_bed_file.dtypes.reset_index().rename(columns={"index": "Column", 0: "DataType"}))
         subprocess.run(pyGenomeTracks_command, check=True)
         img = mpimg.imread(output_file)
         plt.figure(figsize=(10, 5))

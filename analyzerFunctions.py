@@ -123,7 +123,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     
     # Reorder for GTF
     gtf = gtf[["chr", "source", "feature", "start", "end", "score", "strand", "frame", "attribute"]]
-    
+    gtf.iloc[:, 0] = "chr" + gtf.iloc[:, 0].astype(str)
     gtf.to_csv("tracks/tempCodingGenes.gtf", sep="\t", header=False, index=False)
         
     gene_tracks_path = os.path.join(TRACKS_DIR, "geneTracks.ini")

@@ -156,7 +156,8 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     ]
 
     try:
-        st.write("Unique strand values:", new_bed_file.iloc[:, 5].unique())
+        st.write("Column data types of new_bed_file:")
+        st.dataframe(new_bed_file.dtypes.reset_index().rename(columns={"index": "Column", 0: "DataType"}))
         subprocess.run(pyGenomeTracks_command, check=True)
         img = mpimg.imread(output_file)
         plt.figure(figsize=(10, 5))

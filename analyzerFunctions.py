@@ -112,10 +112,14 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
 
     temp_links_file.close()
 
-    new_bed_file = coding_genes.iloc[:, [0, 1, 2, 3, 4, 5]].copy()
-    new_bed_file.iloc[:, 4] = 100
-    new_bed_file.loc[new_bed_file.iloc[:, 3] == gene_of_interest, new_bed_file.columns[4]] = "1000"
+    new_bed_file = coding_genes.copy()
+    new_bed_file.loc[new_bed_file.iloc[:, 3] == gene_of_interest, new_bed_file.columns[6]] = "255,0,0"
+    new_bed_file.insert(6, "thickStart", 1000)
+    new_bed_file.insert(7, "thickEnd", 2000)
     new_bed_file.to_csv(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"), index=False, sep="\t", header=False)
+    new_bed_file["blockCount"] = 1
+    new_bed_file["blockSizes"] = (new_bed_file.iloc[:, 2] - new_bed_file.iloc[:, 1]).astype(str) + ","
+    new_bed_file["blockStarts"] = "0,"
     
     gene_tracks_path = os.path.join(TRACKS_DIR, "geneTracks.ini")
     temp_tracks_path = os.path.join(TRACKS_DIR, "temp_gene_tracks.ini")
@@ -137,8 +141,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("[genes]\n")
         temp_tracks_file.write("file = tracks/tempCodingGenes.bed\n")
         temp_tracks_file.write("file_type = bed\n")
-        temp_tracks_file.write("color = RdYlBu\n")
-        temp_tracks_file.write("show_colorbar = false\n")
+        temp_tracks_file.write("color = bed_rgb\n")
         temp_tracks_file.write("height = 10\n")
         temp_tracks_file.write("title = Genes\n")
         temp_tracks_file.write("fontsize = 12\n")

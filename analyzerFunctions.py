@@ -279,7 +279,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("height = 4\n")
         temp_tracks_file.write("title = DNase\n")
         temp_tracks_file.write("min_value = 0\n")
-        temp_tracks_file.write("max_value = 30\n\n")
+        temp_tracks_file.write("max_value = 1\n\n")
 
     temp_tracks_file.close()
 

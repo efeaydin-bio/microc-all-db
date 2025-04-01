@@ -173,15 +173,6 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("labels: false\n")
         temp_tracks_file.write("merge_transcripts: true\n")
 
-    [genes]
-
-
-
-
-
-display: collapsed
-labels: false
-
     temp_tracks_file.close()
 
     output_file = "output_genome_track.png"

@@ -113,13 +113,19 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
 
     temp_links_file.close()
 
-    new_bed_file = coding_genes.copy()
-    new_bed_file.loc[new_bed_file.iloc[:, 3] == gene_of_interest, new_bed_file.columns[6]] = "255,0,0"
-    new_bed_file.insert(6, "thickStart", 1000)
-    new_bed_file.insert(7, "thickEnd", 2000)
-    new_bed_file.to_csv(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"), index=False, sep="\t", header=False, quoting=csv.QUOTE_NONE)
-
+    gtf = coding_genes.iloc[:, [0, 1, 2, 5, 3]].copy()
+    gtf.columns = ["chr", "start", "end", "strand", "gene_id"]
+    gtf["source"] = "custom"
+    gtf["feature"] = "gene"
+    gtf["score"] = "."
+    gtf["frame"] = "."
+    gtf["attribute"] = gtf["gene_id"].apply(lambda g: f'gene_id "{g}"; color "255,0,0";' if g == gene_of_interest else f'gene_id "{g}";')
     
+    # Reorder for GTF
+    gtf = gtf[["chr", "source", "feature", "start", "end", "score", "strand", "frame", "attribute"]]
+    
+    gtf.to_csv("tracks/tempCodingGenes.gtf", sep="\t", header=False, index=False)
+        
     gene_tracks_path = os.path.join(TRACKS_DIR, "geneTracks.ini")
     temp_tracks_path = os.path.join(TRACKS_DIR, "temp_gene_tracks.ini")
     temp_tracks_file = open(temp_tracks_path, "w")
@@ -138,9 +144,9 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("height = 5\n\n")
         #  Genes
         temp_tracks_file.write("[genes]\n")
-        temp_tracks_file.write("file = tracks/tempCodingGenes.bed\n")
-        temp_tracks_file.write("file_type = bed\n")
-        temp_tracks_file.write("color = bed_rgb\n")
+        temp_tracks_file.write("file = tracks/tempCodingGenes.gtf\n")
+        temp_tracks_file.write("file_type = gtf\n")
+        temp_tracks_file.write("color = gtf_attribute_color\n")
         temp_tracks_file.write("height = 10\n")
         temp_tracks_file.write("title = Genes\n")
         temp_tracks_file.write("fontsize = 12\n")

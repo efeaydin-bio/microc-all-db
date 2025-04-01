@@ -156,7 +156,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     ]
 
     try:
-        st.write("Matplotlib version:", matplotlib.__version__)
+        st.write("Unique strand values:", new_bed_file.iloc[:, 5].unique())
         subprocess.run(pyGenomeTracks_command, check=True)
         img = mpimg.imread(output_file)
         plt.figure(figsize=(10, 5))

@@ -112,7 +112,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     temp_links_file.close()
 
     new_bed_file = coding_genes.copy()
-    new_bed_file.loc[new_bed_file.iloc[:, 3] == gene_of_interest, new_bed_file.columns[6]] = "255,0,0"
+    new_bed_file.loc[new_bed_file.iloc[:, 3] == gene_of_interest, new_bed_file.columns[6]] = '"255,0,0"'
     new_bed_file.insert(6, "thickStart", 1000)
     new_bed_file.insert(7, "thickEnd", 2000)
 

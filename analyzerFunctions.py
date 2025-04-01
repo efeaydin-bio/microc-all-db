@@ -14,7 +14,8 @@ import os
 import tempfile
 import matplotlib
 import pyBigWig
-
+import shutil
+import requests
 
 # -------------------- Configuration --------------------
 
@@ -36,7 +37,13 @@ all_loops.iloc[:, [1, 2, 4, 5]] = all_loops.iloc[:, [1, 2, 4, 5]].astype(int)
 
 
 # -------------------- Functions --------------------
-
+def fetch_bigwig_locally(url):
+tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".bw")
+with requests.get(url, stream=True) as r:
+    r.raise_for_status()
+    with open(tmp.name, 'wb') as f:
+        shutil.copyfileobj(r.raw, f)
+return tmp.name
 
 def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     gene_index = 9 - cre_index
@@ -126,14 +133,14 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     only_gene.to_csv("tracks/onlyTargetGene.bed", sep="\t", index=False, header=False)
 
     # fix bigwig
+    h3k27ac_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27ac.bigWig")
+    h3k27ac = pyBigWig.open(h3k27ac_url)
     # define regions of interest
     chrom = f"chr{myDf.iloc[0, 0]}"
     start = int(extended_min_start)
     end = int(extended_max_end)
     bw_region = f"{chrom}:{start}-{end}"
     # h3k27ac
-    h3k27ac_url = "https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27ac.bigWig"
-    h3k27ac = pyBigWig.open(h3k27ac_url)
     values = h3k27ac.values(chrom, start, end)
     intervals = h3k27ac.intervals(chrom, start, end)
     

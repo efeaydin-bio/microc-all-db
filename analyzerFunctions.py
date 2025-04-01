@@ -149,6 +149,10 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     ]
 
     try:
+        st.write("First 10 lines of tempCodingGenes.bed:")
+        with open(os.path.join(TRACKS_DIR, "tempCodingGenes.bed")) as f:
+            first_lines = ''.join([next(f) for _ in range(10)])
+            st.code(first_lines, language="text")
         with open(temp_tracks_path, "r") as f:
             st.code(f.read(), language="ini")
         subprocess.run(pyGenomeTracks_command, check=True)

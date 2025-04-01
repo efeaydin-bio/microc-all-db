@@ -140,7 +140,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     temp_h3k27ac_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
     with open(temp_h3k27ac_path, "w") as out:
         for interval in intervals:
-        out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
+            out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
     temp_h3k27ac_path.close()
     gene_tracks_path = os.path.join(TRACKS_DIR, "geneTracks.ini")
     temp_tracks_path = os.path.join(TRACKS_DIR, "temp_gene_tracks.ini")

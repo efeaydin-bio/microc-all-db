@@ -13,6 +13,7 @@ import matplotlib.image as mpimg
 import os
 import tempfile
 import matplotlib
+import csv
 
 # -------------------- Configuration --------------------
 

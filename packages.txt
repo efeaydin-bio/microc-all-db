@@ -1,2 +1,3 @@
+bedtools
 zlib1g-dev
 build-essential

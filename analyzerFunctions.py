@@ -118,9 +118,6 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     new_bed_file.insert(7, "thickEnd", 2000)
 
     new_bed_file = new_bed_file.sort_values(by=[new_bed_file.columns[0], new_bed_file.columns[1]])
-    st.write("new_bed_file shape:", new_bed_file.shape)
-    st.write("Example rows where gene is red:")
-    st.dataframe(new_bed_file[new_bed_file.iloc[:, 8] == "255,0,0"].head())
     new_bed_file.to_csv(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"), index=False, sep="\t", header=False)
     
     gene_tracks_path = os.path.join(TRACKS_DIR, "geneTracks.ini")
@@ -164,6 +161,8 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         st.write("Matplotlib version:", matplotlib.__version__)
         subprocess.run(pyGenomeTracks_command, check=True)
         img = mpimg.imread(output_file)
+        st.write("Image shape:", img.shape)
+        st.write("Sample pixel [middle of image]:", img[img.shape[0]//2, img.shape[1]//2])
         plt.figure(figsize=(10, 5))
         plt.imshow(img)
         plt.axis('off')

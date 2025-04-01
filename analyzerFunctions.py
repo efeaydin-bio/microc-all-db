@@ -46,8 +46,17 @@ def fetch_bigwig_locally(url):
     return tmp.name
 
 # get bigwig files
+h3k4me1_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k4me1.bigWig")
+h3k4me1 = pyBigWig.open(h3k4me1_url)
+h3k4me3_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k4me3.bigWig")
+h3k4me3 = pyBigWig.open(h3k4me3_url)
 h3k27ac_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27ac.bigWig")
 h3k27ac = pyBigWig.open(h3k27ac_url)
+h3k27me3_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27me3.bigWig")
+h3k27me3 = pyBigWig.open(h3k27me3_url)
+dnase_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/dnase.bigWig")
+dnase = pyBigWig.open(dnase_url)
+
 
 def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     gene_index = 9 - cre_index
@@ -141,13 +150,43 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     start = int(extended_min_start)
     end = int(extended_max_end)
     bw_region = f"{chrom}:{start}-{end}"
+
+    # h3k4me1
+    h3k4me1_intervals = h3k4me1.intervals(chrom, start, end)
+    temp_h34me1_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
+    with open(temp_h34me1_path, "w") as out:
+        for interval in h3k4me1_intervals:
+            out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
+
+    # h3k4me3
+    h3k4me3_intervals = h3k4me3.intervals(chrom, start, end)
+    temp_h34me3_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
+    with open(temp_h34me1_path, "w") as out:
+        for interval in h3k4me3_intervals:
+            out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
+    
     # h3k27ac
-    values = h3k27ac.values(chrom, start, end)
-    intervals = h3k27ac.intervals(chrom, start, end)
+    h3k27ac_intervals = h3k27ac.intervals(chrom, start, end)
     temp_h3k27ac_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
     with open(temp_h3k27ac_path, "w") as out:
-        for interval in intervals:
+        for interval in h3k27ac_intervals:
             out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
+
+    # h3k27me3
+    h3k27me3_intervals = h3k27me3.intervals(chrom, start, end)
+    temp_h3k27me3_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
+    with open(temp_h3k27me3_path, "w") as out:
+        for interval in h3k27me3_intervals:
+            out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
+
+    # dnase
+    dnase_intervals = dnase.intervals(chrom, start, end)
+    temp_dnase_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
+    with open(temp_dnase_path, "w") as out:
+        for interval in dnase_intervals:
+            out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
+
+    
     gene_tracks_path = os.path.join(TRACKS_DIR, "geneTracks.ini")
     temp_tracks_path = os.path.join(TRACKS_DIR, "temp_gene_tracks.ini")
     temp_tracks_file = open(temp_tracks_path, "w")
@@ -196,6 +235,24 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("display = collapsed\n")
         temp_tracks_file.write("labels: false\n")
         temp_tracks_file.write("merge_transcripts: true\n")
+        # h3k4me1
+        temp_tracks_file.write("[h3k4me1]\n")
+        temp_tracks_file.write(f"file = {temp_h3k4me1_path}\n")
+        temp_tracks_file.write("file_type = bedgraph\n")
+        temp_tracks_file.write("color = green\n")
+        temp_tracks_file.write("height = 4\n")
+        temp_tracks_file.write("title = H3K4me1\n")
+        temp_tracks_file.write("min_value = 0\n")
+        temp_tracks_file.write("max_value = 30\n\n")
+        # h3k4me3
+        temp_tracks_file.write("[h3k4me3]\n")
+        temp_tracks_file.write(f"file = {temp_h3k4me3_path}\n")
+        temp_tracks_file.write("file_type = bedgraph\n")
+        temp_tracks_file.write("color = green\n")
+        temp_tracks_file.write("height = 4\n")
+        temp_tracks_file.write("title = H3K4me3\n")
+        temp_tracks_file.write("min_value = 0\n")
+        temp_tracks_file.write("max_value = 30\n\n")
         # h3k27ac
         temp_tracks_file.write("[h3k27ac]\n")
         temp_tracks_file.write(f"file = {temp_h3k27ac_path}\n")
@@ -203,6 +260,24 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("color = green\n")
         temp_tracks_file.write("height = 4\n")
         temp_tracks_file.write("title = H3K27ac\n")
+        temp_tracks_file.write("min_value = 0\n")
+        temp_tracks_file.write("max_value = 30\n\n")
+        # h3k27me3
+        temp_tracks_file.write("[h3k27me3]\n")
+        temp_tracks_file.write(f"file = {temp_h3k27me3_path}\n")
+        temp_tracks_file.write("file_type = bedgraph\n")
+        temp_tracks_file.write("color = green\n")
+        temp_tracks_file.write("height = 4\n")
+        temp_tracks_file.write("title = H3K27me3\n")
+        temp_tracks_file.write("min_value = 0\n")
+        temp_tracks_file.write("max_value = 30\n\n")
+        # dnase
+        temp_tracks_file.write("[dnase]\n")
+        temp_tracks_file.write(f"file = {temp_dnase_path}\n")
+        temp_tracks_file.write("file_type = bedgraph\n")
+        temp_tracks_file.write("color = grey\n")
+        temp_tracks_file.write("height = 4\n")
+        temp_tracks_file.write("title = DNase\n")
         temp_tracks_file.write("min_value = 0\n")
         temp_tracks_file.write("max_value = 30\n\n")
 
@@ -230,7 +305,11 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         os.remove(temp_tracks_file.name)
         os.remove(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"))
         os.remove(os.path.join(TRACKS_DIR, "onlyTargetGene.bed"))
+        os.remove(temp_h3k4me1_path) 
+        os.remove(temp_h3k4me3_path) 
         os.remove(temp_h3k27ac_path) 
+        os.remove(temp_h3k27me3_path) 
+        os.remove(temp_dnase_path) 
     except subprocess.CalledProcessError as e:
         st.write(f"Error generating genome track: {e}")
 

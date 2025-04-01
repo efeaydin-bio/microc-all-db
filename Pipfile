@@ -5,7 +5,7 @@ pygenometracks = "==3.8"
 streamlit = ">=1.30.0"
 pandas = ">=1.5.0"
 pybedtools = "*"
-
+numpy = "==1.26.4"
 
 [scripts]
 start = "streamlit run app.py"

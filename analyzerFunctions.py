@@ -150,7 +150,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     ]
 
     try:
-        st.write("Matplotlib backend:", matplotlib.get_backend())
+        st.write("Matplotlib version:", matplotlib.__version__)
         subprocess.run(pyGenomeTracks_command, check=True)
         img = mpimg.imread(output_file)
         plt.figure(figsize=(10, 5))

@@ -174,7 +174,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         os.remove(output_file)
         os.remove(temp_links_file.name)
         os.remove(temp_tracks_file.name)
-        os.remove(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"))
+        os.remove(os.path.join(TRACKS_DIR, "tempCodingGenes.gtf"))
     except subprocess.CalledProcessError as e:
         st.write(f"Error generating genome track: {e}")
 

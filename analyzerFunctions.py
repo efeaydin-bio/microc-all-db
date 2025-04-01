@@ -140,6 +140,16 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("color = red\n")
         temp_tracks_file.write("title = Enhancer Links\n")
         temp_tracks_file.write("height = 5\n\n")
+        # only gene
+        temp_tracks_file.write("[genes2]\n")
+        temp_tracks_file.write("file = tracks/onlyTargetGene.bed\n")
+        temp_tracks_file.write("file_type = bed\n")
+        temp_tracks_file.write("color = red\n")
+        temp_tracks_file.write("height = 10\n")
+        temp_tracks_file.write("title = \n")
+        temp_tracks_file.write("fontsize = 12\n")
+        temp_tracks_file.write("arrow_interval = 5\n")
+        temp_tracks_file.write("gene_rows = 10\n\n")
         #  Genes
         temp_tracks_file.write("[genes]\n")
         temp_tracks_file.write("file = tracks/tempCodingGenes.bed\n")
@@ -150,17 +160,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("fontsize = 12\n")
         temp_tracks_file.write("arrow_interval = 5\n")
         temp_tracks_file.write("gene_rows = 10\n\n")
-        # only gene
-        temp_tracks_file.write("[genes2]\n")
-        temp_tracks_file.write("file = tracks/onlyTargetGene.bed\n")
-        temp_tracks_file.write("file_type = bed\n")
-        temp_tracks_file.write("color = red\n")
-        temp_tracks_file.write("overlay_previous = yes\n")
-        temp_tracks_file.write("height = 10\n")
-        temp_tracks_file.write("title = \n")
-        temp_tracks_file.write("fontsize = 12\n")
-        temp_tracks_file.write("arrow_interval = 5\n")
-        temp_tracks_file.write("gene_rows = 10\n\n")
+
     temp_tracks_file.close()
 
     output_file = "output_genome_track.png"

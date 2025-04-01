@@ -161,6 +161,26 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("fontsize = 12\n")
         temp_tracks_file.write("arrow_interval = 5\n")
         temp_tracks_file.write("gene_rows = 10\n\n")
+        # Promoters
+        temp_tracks_file.write("[promoters]\n")
+        temp_tracks_file.write("file = data/promoters.bed\n")
+        temp_tracks_file.write("file_type = bed\n")
+        temp_tracks_file.write("color = red\n")
+        temp_tracks_file.write("height = 2\n")
+        temp_tracks_file.write("merge_overlapping_exons: true\n")
+        temp_tracks_file.write("title = Promoters\n")
+        temp_tracks_file.write("display = collapsed\n")
+        temp_tracks_file.write("labels: false\n")
+        temp_tracks_file.write("merge_transcripts: true\n")
+
+    [genes]
+
+
+
+
+
+display: collapsed
+labels: false
 
     temp_tracks_file.close()
 

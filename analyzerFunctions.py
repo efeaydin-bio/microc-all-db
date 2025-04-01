@@ -13,7 +13,8 @@ import matplotlib.image as mpimg
 import os
 import tempfile
 import matplotlib
-import csv
+import pyBigWig
+
 
 # -------------------- Configuration --------------------
 
@@ -113,7 +114,7 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
 
     temp_links_file.close()
 
-    
+    # fix genes
     new_bed_file = coding_genes[coding_genes.iloc[:, 3] != gene_of_interest].copy()
     new_bed_file.loc[new_bed_file.iloc[:, 3] == gene_of_interest, new_bed_file.columns[6]] = "255,0,0"
     new_bed_file.insert(6, "thickStart", 1000)
@@ -124,6 +125,23 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     only_gene = only_gene.iloc[:, [0, 1, 2, 3, 4, 5]]  # BED6
     only_gene.to_csv("tracks/onlyTargetGene.bed", sep="\t", index=False, header=False)
 
+    # fix bigwig
+    # define regions of interest
+    chrom = f"chr{myDf.iloc[0, 0]}"
+    start = int(extended_min_start)
+    end = int(extended_max_end)
+    bw_region = f"{chrom}:{start}-{end}"
+    # h3k27ac
+    h3k27ac_url = "https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27ac.bigWig"
+    h3k27ac = pyBigWig.open(h3k27ac_url)
+    values = h3k27ac.values(chrom, start, end)
+    intervals = h3k27ac.intervals(chrom, start, end)
+    
+    temp_h3k27ac_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
+    with open(temp_h3k27ac_path, "w") as out:
+        for interval in intervals:
+        out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
+    temp_h3k27ac_path.close()
     gene_tracks_path = os.path.join(TRACKS_DIR, "geneTracks.ini")
     temp_tracks_path = os.path.join(TRACKS_DIR, "temp_gene_tracks.ini")
     temp_tracks_file = open(temp_tracks_path, "w")
@@ -172,6 +190,15 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         temp_tracks_file.write("display = collapsed\n")
         temp_tracks_file.write("labels: false\n")
         temp_tracks_file.write("merge_transcripts: true\n")
+        # h3k27ac
+        temp_tracks_file.write("[h3k27ac]\n")
+        temp_tracks_file.write(f"file = {temp_h3k27ac_path}\n")
+        temp_tracks_file.write("file_type = bedgraph\n")
+        temp_tracks_file.write("color = black\n")
+        temp_tracks_file.write("height = 4\n")
+        temp_tracks_file.write("title = H3K27ac\n")
+        temp_tracks_file.write("min_value = 0\n")
+        temp_tracks_file.write("max_value = 100\n\n")
 
     temp_tracks_file.close()
 
@@ -197,6 +224,8 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         os.remove(temp_tracks_file.name)
         os.remove(os.path.join(TRACKS_DIR, "tempCodingGenes.bed"))
         os.remove(os.path.join(TRACKS_DIR, "onlyTargetGene.bed"))
+        os.remove(temp_h3k27ac_path) 
+        del bw, values, intervals
     except subprocess.CalledProcessError as e:
         st.write(f"Error generating genome track: {e}")
 

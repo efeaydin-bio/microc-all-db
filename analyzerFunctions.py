@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import os
 import tempfile
-import pygenometracks
 
 # -------------------- Configuration --------------------
 
@@ -150,8 +149,8 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     ]
 
     try:
-        st.write("pyGenomeTracks version:", pygenometracks.__version__)
-        st.write("matplotlib backend:", matplotlib.get_backend())
+        version_output = subprocess.check_output(["pyGenomeTracks", "--version"], text=True)
+        st.write("pyGenomeTracks version:", version_output.strip())
         subprocess.run(pyGenomeTracks_command, check=True)
         img = mpimg.imread(output_file)
         plt.figure(figsize=(10, 5))

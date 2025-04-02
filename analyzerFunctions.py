@@ -166,14 +166,13 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     temp_h3k27me3_path = write_temp_bedgraph(h3k27me3, chrom, start, end)
     temp_dnase_path   = write_temp_bedgraph(dnase, chrom, start, end)
     
-    gene_tracks_path = os.path.join(TRACKS_DIR, "geneTracks.ini")
     temp_tracks_path = os.path.join(TRACKS_DIR, "temp_gene_tracks.ini")
-    temp_tracks_file = open(temp_tracks_path, "w")
-    with open(gene_tracks_path, "r") as base_tracks:
-        lines = base_tracks.readlines()
-        temp_tracks_file.write(lines[0])
-        temp_tracks_file.write("\n")
-
+    with open(temp_tracks_path, "w") as temp_tracks_file:
+        # x-axis
+        temp_tracks_file.write("[x-axis]\n")
+        temp_tracks_file.write("height = 4\n")
+        temp_tracks_file.write("fontsize = 14\n")
+        temp_tracks_file.write("title = hg38\n\n")
         # enhancer links
         temp_tracks_file.write("[enhancer_links]\n")
         temp_tracks_file.write(f"file = {temp_links_file.name}\n")

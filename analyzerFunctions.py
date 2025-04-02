@@ -38,24 +38,49 @@ all_loops.iloc[:, [1, 2, 4, 5]] = all_loops.iloc[:, [1, 2, 4, 5]].astype(int)
 
 # -------------------- Functions --------------------
 def fetch_bigwig_locally(url):
-    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".bw")
-    with requests.get(url, stream=True) as r:
-        r.raise_for_status()
-        with open(tmp.name, 'wb') as f:
-            shutil.copyfileobj(r.raw, f)
-    return tmp.name
+    filename = os.path.basename(url)
+    cache_dir = "cached_bigwigs"
+    os.makedirs(cache_dir, exist_ok=True)
+    local_path = os.path.join(cache_dir, filename)
 
+    if not os.path.exists(local_path):
+        with requests.get(url, stream=True) as r:
+            r.raise_for_status()
+            with open(local_path, "wb") as f:
+                shutil.copyfileobj(r.raw, f)
+
+    return local_path
+
+# bigwig loading
+@st.cache_resource
+def load_bigwig_tracks():
+    bw_files = {
+        "h3k4me1": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k4me1.bigWig"),
+        "h3k4me3": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k4me3.bigWig"),
+        "h3k27ac": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27ac.bigWig"),
+        "h3k27me3": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27me3.bigWig"),
+        "dnase": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/dnase.bigWig"),
+    }
+
+    return {key: pyBigWig.open(path) for key, path in bw_files.items()}
+
+bigwig_tracks = load_bigwig_tracks()
+h3k4me1 = bigwig_tracks["h3k4me1"]
+h3k4me3 = bigwig_tracks["h3k4me3"]
+h3k27ac = bigwig_tracks["h3k27ac"]
+h3k27me3 = bigwig_tracks["h3k27me3"]
+dnase = bigwig_tracks["dnase"]
 # get bigwig files
-h3k4me1_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k4me1.bigWig")
-h3k4me1 = pyBigWig.open(h3k4me1_url)
-h3k4me3_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k4me3.bigWig")
-h3k4me3 = pyBigWig.open(h3k4me3_url)
-h3k27ac_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27ac.bigWig")
-h3k27ac = pyBigWig.open(h3k27ac_url)
-h3k27me3_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27me3.bigWig")
-h3k27me3 = pyBigWig.open(h3k27me3_url)
-dnase_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/dnase.bigWig")
-dnase = pyBigWig.open(dnase_url)
+#h3k4me1_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k4me1.bigWig")
+#h3k4me1 = pyBigWig.open(h3k4me1_url)
+#h3k4me3_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k4me3.bigWig")
+#h3k4me3 = pyBigWig.open(h3k4me3_url)
+#h3k27ac_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27ac.bigWig")
+#h3k27ac = pyBigWig.open(h3k27ac_url)
+#h3k27me3_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27me3.bigWig")
+#h3k27me3 = pyBigWig.open(h3k27me3_url)
+#dnase_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/dnase.bigWig")
+#dnase = pyBigWig.open(dnase_url)
 
 # function to write tempfiles from bigWigs
 def write_temp_bedgraph(track, chrom, start, end):

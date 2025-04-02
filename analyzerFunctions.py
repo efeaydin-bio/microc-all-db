@@ -57,7 +57,16 @@ h3k27me3 = pyBigWig.open(h3k27me3_url)
 dnase_url = fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/dnase.bigWig")
 dnase = pyBigWig.open(dnase_url)
 
+# function to write tempfiles from bigWigs
+def write_temp_bedgraph(track, chrom, start, end):
+    intervals = track.intervals(chrom, start, end)
+    temp_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
+    with open(temp_path, "w") as out:
+        for interval in intervals:
+            out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
+    return temp_path
 
+# function for gene targeted query
 def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     gene_index = 9 - cre_index
     myTx = "allTX" if cre_index == 0 else "canonTX"
@@ -151,41 +160,11 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
     end = int(extended_max_end)
     bw_region = f"{chrom}:{start}-{end}"
 
-    # h3k4me1
-    h3k4me1_intervals = h3k4me1.intervals(chrom, start, end)
-    temp_h3k4me1_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
-    with open(temp_h3k4me1_path, "w") as out:
-        for interval in h3k4me1_intervals:
-            out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
-
-    # h3k4me3
-    h3k4me3_intervals = h3k4me3.intervals(chrom, start, end)
-    temp_h3k4me3_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
-    with open(temp_h3k4me3_path, "w") as out:
-        for interval in h3k4me3_intervals:
-            out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
-    
-    # h3k27ac
-    h3k27ac_intervals = h3k27ac.intervals(chrom, start, end)
-    temp_h3k27ac_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
-    with open(temp_h3k27ac_path, "w") as out:
-        for interval in h3k27ac_intervals:
-            out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
-
-    # h3k27me3
-    h3k27me3_intervals = h3k27me3.intervals(chrom, start, end)
-    temp_h3k27me3_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
-    with open(temp_h3k27me3_path, "w") as out:
-        for interval in h3k27me3_intervals:
-            out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
-
-    # dnase
-    dnase_intervals = dnase.intervals(chrom, start, end)
-    temp_dnase_path = tempfile.NamedTemporaryFile(delete=False, suffix=".bedGraph").name
-    with open(temp_dnase_path, "w") as out:
-        for interval in dnase_intervals:
-            out.write(f"{chrom}\t{interval[0]}\t{interval[1]}\t{interval[2]}\n")
-
+    temp_h3k4me1_path = write_temp_bedgraph(h3k4me1, chrom, start, end)
+    temp_h3k4me3_path = write_temp_bedgraph(h3k4me3, chrom, start, end)
+    temp_h3k27ac_path = write_temp_bedgraph(h3k27ac, chrom, start, end)
+    temp_h3k27me3_path = write_temp_bedgraph(h3k27me3, chrom, start, end)
+    temp_dnase_path   = write_temp_bedgraph(dnase, chrom, start, end)
     
     gene_tracks_path = os.path.join(TRACKS_DIR, "geneTracks.ini")
     temp_tracks_path = os.path.join(TRACKS_DIR, "temp_gene_tracks.ini")

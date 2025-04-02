@@ -405,14 +405,42 @@ def locAnalyzer(subChoice, res, myChr, myStart, myEnd, cre_index):
     if st.session_state.last_region != region:
         st.session_state.last_region = region
         output_file = "output_genome_track.png"
+        
+        base_track_path = myTrack  # existing selected track path (from merged or subtype)
+        temp_track_path = os.path.join(TRACKS_DIR, f"temp_{mySubtype}_{res}_{myTx}.ini")
+
+        # write a temporary big file
+        with open(base_track_path, "r") as infile, open(temp_track_path, "w") as outfile:
+            current_section = None
+            for line in infile:
+                stripped = line.strip()
+                if stripped.startswith("["):
+                    current_section = stripped.lower()
+                if "file =" in stripped and current_section == "[test bigwig]":
+                    if "h3k4me1" in line:
+                        outfile.write(f"file = {bigwig_tracks['h3k4me1'].filename}\n")
+                    elif "h3k4me3" in line:
+                        outfile.write(f"file = {bigwig_tracks['h3k4me3'].filename}\n")
+                    elif "h3k27ac" in line:
+                        outfile.write(f"file = {bigwig_tracks['h3k27ac'].filename}\n")
+                    elif "h3k27me3" in line:
+                        outfile.write(f"file = {bigwig_tracks['h3k27me3'].filename}\n")
+                    elif "dnase" in line:
+                        outfile.write(f"file = {bigwig_tracks['dnase'].filename}\n")
+                else:
+                    outfile.write(line)
+            else:
+                outfile.write(line)
         pyGenomeTracks_command = [
-            "pyGenomeTracks", "--tracks", myTrack, "--region", region, "-o", output_file
+            "pyGenomeTracks", "--tracks", temp_track_path, "--region", region, "-o", output_file
         ]
+        
         try:
             subprocess.run(pyGenomeTracks_command, check=True)
             st.session_state.track_image = mpimg.imread(output_file)
             if os.path.exists(output_file):
                 os.remove(output_file)
+                os.remove(temp_track_path)
         except subprocess.CalledProcessError as e:
             st.write(f"Error generating genome track: {e}")
     else:

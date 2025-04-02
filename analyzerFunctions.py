@@ -402,35 +402,40 @@ def locAnalyzer(subChoice, res, myChr, myStart, myEnd, cre_index):
     extended_min_start, extended_max_end = get_genomic_range(myDf)
     region = f"chr{myDf.iloc[0, 0]}:{extended_min_start}-{extended_max_end}"
 
+    chrom = f"chr{myDf.iloc[0, 0]}"
+    temp_h3k4me1_path = write_temp_bedgraph(h3k4me1, chrom, extended_min_start, extended_max_end)
+    temp_h3k4me3_path = write_temp_bedgraph(h3k4me3, chrom, extended_min_start, extended_max_end)
+    temp_h3k27ac_path = write_temp_bedgraph(h3k27ac, chrom, extended_min_start, extended_max_end)
+    temp_h3k27me3_path = write_temp_bedgraph(h3k27me3, chrom, extended_min_start, extended_max_end)
+    temp_dnase_path   = write_temp_bedgraph(dnase, chrom, extended_min_start, extended_max_end)
+
+    temp_track_path = os.path.join(TRACKS_DIR, f"temp_{mySubtype}_{res}_{myTx}.ini")
+
+    # Write base part of original .ini
+    with open(myTrack, "r") as infile, open(temp_track_path, "w") as outfile:
+        for line in infile:
+            outfile.write(line)
+    
+        # Function to append dynamically generated bigwig blocks
+        def write_bigwig_section(f, title, path, max_val):
+            f.write("[test bigwig]\n")
+            f.write(f"file = {path}\n")
+            f.write("file_type = bedgraph\n")
+            f.write("height = 4\n")
+            f.write(f"title = {title}\n")
+            f.write("min_value = 0\n")
+            f.write(f"max_value = {max_val}\n\n")
+    
+        write_bigwig_section(outfile, "H3K4me1", temp_h3k4me1_path, 30)
+        write_bigwig_section(outfile, "H3K4me3", temp_h3k4me3_path, 30)
+        write_bigwig_section(outfile, "H3K27ac", temp_h3k27ac_path, 30)
+        write_bigwig_section(outfile, "H3K27me3", temp_h3k27me3_path, 30)
+        write_bigwig_section(outfile, "DNase", temp_dnase_path, 1)
+
     if st.session_state.last_region != region:
         st.session_state.last_region = region
         output_file = "output_genome_track.png"
-        
-        base_track_path = myTrack  # existing selected track path (from merged or subtype)
-        temp_track_path = os.path.join(TRACKS_DIR, f"temp_{mySubtype}_{res}_{myTx}.ini")
 
-        # write a temporary big file
-        with open(base_track_path, "r") as infile, open(temp_track_path, "w") as outfile:
-            current_section = None
-            for line in infile:
-                stripped = line.strip()
-                if stripped.startswith("["):
-                    current_section = stripped.lower()
-                if "file =" in stripped and current_section == "[test bigwig]":
-                    if "h3k4me1" in line:
-                        outfile.write(f"file = {bigwig_tracks['h3k4me1'].filename}\n")
-                    elif "h3k4me3" in line:
-                        outfile.write(f"file = {bigwig_tracks['h3k4me3'].filename}\n")
-                    elif "h3k27ac" in line:
-                        outfile.write(f"file = {bigwig_tracks['h3k27ac'].filename}\n")
-                    elif "h3k27me3" in line:
-                        outfile.write(f"file = {bigwig_tracks['h3k27me3'].filename}\n")
-                    elif "dnase" in line:
-                        outfile.write(f"file = {bigwig_tracks['dnase'].filename}\n")
-                else:
-                    outfile.write(line)
-            else:
-                outfile.write(line)
         pyGenomeTracks_command = [
             "pyGenomeTracks", "--tracks", temp_track_path, "--region", region, "-o", output_file
         ]
@@ -440,6 +445,11 @@ def locAnalyzer(subChoice, res, myChr, myStart, myEnd, cre_index):
             st.session_state.track_image = mpimg.imread(output_file)
             if os.path.exists(output_file):
                 os.remove(output_file)
+                os.remove(temp_h3k4me1_path)
+                os.remove(temp_h3k4me3_path)
+                os.remove(temp_h3k27ac_path)
+                os.remove(temp_h3k27me3_path)
+                os.remove(temp_dnase_path)
                 os.remove(temp_track_path)
         except subprocess.CalledProcessError as e:
             st.write(f"Error generating genome track: {e}")

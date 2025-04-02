@@ -267,14 +267,14 @@ def geneAnalyzer(subChoice, res, gene_of_interest, cre_index):
         "--tracks", temp_tracks_path,
         "--region", region,
         "--dpi", "100",
-        "--width", "25",
+        "--width", "60",
         "-o", output_file
     ]
 
     try:
         subprocess.run(pyGenomeTracks_command, check=True)
         img = mpimg.imread(output_file)
-        plt.figure(figsize=(14, 5)) # It was 10
+        plt.figure(figsize=(10, 5)) 
         plt.imshow(img)
         plt.axis('off')
         st.pyplot(plt.gcf())

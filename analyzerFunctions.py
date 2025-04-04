@@ -417,20 +417,21 @@ def locAnalyzer(subChoice, res, myChr, myStart, myEnd, cre_index):
             outfile.write(line)
     
         # Function to append dynamically generated bigwig blocks
-        def write_bigwig_section(f, title, path, max_val):
+        def write_bigwig_section(f, title, path, max_val, color):
             f.write("[test bigwig]\n")
             f.write(f"file = {path}\n")
             f.write("file_type = bedgraph\n")
             f.write("height = 4\n")
             f.write(f"title = {title}\n")
+            f.write(f"color = {color}\n")
             f.write("min_value = 0\n")
             f.write(f"max_value = {max_val}\n\n")
     
-        write_bigwig_section(outfile, "H3K4me1", temp_h3k4me1_path, 30)
-        write_bigwig_section(outfile, "H3K4me3", temp_h3k4me3_path, 30)
-        write_bigwig_section(outfile, "H3K27ac", temp_h3k27ac_path, 30)
-        write_bigwig_section(outfile, "H3K27me3", temp_h3k27me3_path, 30)
-        write_bigwig_section(outfile, "DNase", temp_dnase_path, 1)
+        write_bigwig_section(outfile, "H3K4me1", temp_h3k4me1_path, 30,"green")
+        write_bigwig_section(outfile, "H3K4me3", temp_h3k4me3_path, 30, "green")
+        write_bigwig_section(outfile, "H3K27ac", temp_h3k27ac_path, 30, "green")
+        write_bigwig_section(outfile, "H3K27me3", temp_h3k27me3_path, 30, "green")
+        write_bigwig_section(outfile, "DNase", temp_dnase_path, 1, "grey")
 
     if st.session_state.last_region != region:
         st.session_state.last_region = region

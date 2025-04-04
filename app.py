@@ -15,7 +15,7 @@ import os
 
 
 # -------- Configuration --------
-REFERENCE_MANUAL_PATH = os.path.join("static", "reference_manual.pdf")
+REFERENCE_MANUAL_PATH = os.path.join("data", "reference_manual.pdf")
 
 # streamlit secrets
 PASSWORD = st.secrets.get("password", "defaultpassword")  
@@ -105,7 +105,7 @@ def pdf_page():
 
 
     if not os.path.exists(REFERENCE_MANUAL_PATH):
-        st.error("Reference manual not found. Please place 'reference_manual.pdf' in the 'static/' folder.")
+        st.error("Reference manual not found. Please place 'reference_manual.pdf' in the 'data/' folder.")
         return
 
     with open(REFERENCE_MANUAL_PATH, "rb") as pdf_file:

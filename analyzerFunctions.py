@@ -356,11 +356,11 @@ def locAnalyzer(subChoice, res, myChr, myStart, myEnd, cre_index):
     myDf_all = myDf_all[myDf_all['target'] == "no"]
 
     if myDf.empty:
-        st.write("No predicted enhancers were found for this location")
+        st.write("No regulatory loops were found for this location")
         return
 
     unique_enhancers = myDf[['chr', 'start', 'end']].drop_duplicates()
-    st.write(f"There are {len(unique_enhancers)} enhancers found in this region")
+    st.write(f"There are {len(unique_enhancers)} regulatory loops identified in this region")
 
     if "show_enhancers" not in st.session_state:
         st.session_state.show_enhancers = False
@@ -374,7 +374,7 @@ def locAnalyzer(subChoice, res, myChr, myStart, myEnd, cre_index):
 
     enhancer_df = []
     if st.session_state.show_enhancers:
-        st.write("Enhancer details:")
+        st.write("CRE details:")
         for _, row in unique_enhancers.iterrows():
             chr_val, start_val, end_val = row
             associated_genes = myDf[
@@ -393,9 +393,9 @@ def locAnalyzer(subChoice, res, myChr, myStart, myEnd, cre_index):
 
         enhancer_df = pd.DataFrame(enhancer_df, columns=['chr', 'start', 'end', 'target'])
         st.download_button(
-            label="Download Enhancer Details as CSV",
+            label="Download CRE Details as CSV",
             data=enhancer_df.to_csv(index=False),
-            file_name=f"{myChr}_{myStart}_{myEnd}_{mySubtype}_{res}_{myTx}_enhancer_results.csv",
+            file_name=f"{myChr}_{myStart}_{myEnd}_{mySubtype}_{res}_{myTx}_cre_results.csv",
             mime="text/csv"
         )
 

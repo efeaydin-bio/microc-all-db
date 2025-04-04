@@ -423,7 +423,7 @@ def locAnalyzer(subChoice, res, myChr, myStart, myEnd, cre_index):
             f.write("file_type = bedgraph\n")
             f.write("height = 4\n")
             f.write(f"title = {title}\n")
-            f.write(f"color = {color}\n")
+            f.write("color = green\n")
             f.write("min_value = 0\n")
             f.write(f"max_value = {max_val}\n\n")
     

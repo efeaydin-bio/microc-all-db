@@ -369,7 +369,7 @@ def locAnalyzer(subChoice, res, myChr, myStart, myEnd, cre_index):
     if "last_region" not in st.session_state:
         st.session_state.last_region = None
 
-    if st.button("Show/Hide Enhancers"):
+    if st.button("Show/Hide CREs"):
         st.session_state.show_enhancers = not st.session_state.show_enhancers
 
     enhancer_df = []

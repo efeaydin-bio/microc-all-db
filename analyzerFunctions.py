@@ -430,11 +430,11 @@ def locAnalyzer(subChoice, res, myChr, myStart, myEnd, cre_index):
             f.write("min_value = 0\n")
             f.write(f"max_value = {max_val}\n\n")
     
-        write_bigwig_section(outfile, "H3K4me1", temp_h3k4me1_path, 30,2)
-        write_bigwig_section(outfile, "H3K4me3", temp_h3k4me3_path, 30,2)
-        write_bigwig_section(outfile, "H3K27ac", temp_h3k27ac_path, 30,2)
-        write_bigwig_section(outfile, "H3K27me3", temp_h3k27me3_path, 30,2)
-        write_bigwig_section(outfile, "DNase", temp_dnase_path, 1,1)
+        write_bigwig_section(outfile, "H3K4me1", temp_h3k4me1_path, 30,1)
+        write_bigwig_section(outfile, "H3K4me3", temp_h3k4me3_path, 30,1)
+        write_bigwig_section(outfile, "H3K27ac", temp_h3k27ac_path, 30,1)
+        write_bigwig_section(outfile, "H3K27me3", temp_h3k27me3_path, 30,1)
+        write_bigwig_section(outfile, "DNase", temp_dnase_path, 1,10)
 
     if st.session_state.last_region != region:
         st.session_state.last_region = region

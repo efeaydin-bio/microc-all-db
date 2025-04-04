@@ -103,6 +103,9 @@ def info_page():
 def pdf_page():
     st.title("Reference Manual")
 
+    abs_path = os.path.abspath(REFERENCE_MANUAL_PATH) # debugger
+    st.write(f"Trying to load PDF from: `{abs_path}`")
+
     if not os.path.exists(REFERENCE_MANUAL_PATH):
         st.error("Reference manual not found. Please place 'reference_manual.pdf' in the 'static/' folder.")
         return

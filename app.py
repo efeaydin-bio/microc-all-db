@@ -103,8 +103,6 @@ def info_page():
 def pdf_page():
     st.title("Reference Manual")
 
-    abs_path = os.path.abspath(REFERENCE_MANUAL_PATH) # debugger
-    st.write(f"Trying to load PDF from: `{abs_path}`")
 
     if not os.path.exists(REFERENCE_MANUAL_PATH):
         st.error("Reference manual not found. Please place 'reference_manual.pdf' in the 'static/' folder.")
@@ -113,9 +111,10 @@ def pdf_page():
     with open(REFERENCE_MANUAL_PATH, "rb") as pdf_file:
         base64_pdf = base64.b64encode(pdf_file.read()).decode("utf-8")
 
-    pdf_display = f'''
-        <iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="900px" style="border: none;"></iframe>
+    pdf_display = '''
+        <iframe src="/static/reference_manual.pdf" width="100%" height="900px" style="border: none;"></iframe>
     '''
+    
     st.markdown(pdf_display, unsafe_allow_html=True)
 
     if st.button("Back to Info Page"):

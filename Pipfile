@@ -2,7 +2,7 @@
 [packages]
 matplotlib = "==3.6.2"
 pygenometracks = "==3.8"
-streamlit = "==1.34.0"
+streamlit = "==1.44.0"
 pandas = "==1.5.3"
 numpy = "==1.26.4"
 pybedtools = "==0.9.0"

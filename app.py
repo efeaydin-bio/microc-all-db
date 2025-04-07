@@ -24,7 +24,6 @@ PASSWORD = st.secrets.get("password", "defaultpassword")
 
 def main_page():
 
-    st.sidebar.markdown("---")
     if st.sidebar.button("Get Info"):
         st.session_state.page = "info_page"
         st.rerun()

@@ -115,7 +115,7 @@ def pdf_page():
    # <iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="900px" style="border: none;"></iframe>
     #'''
 
-    pdf_url = "reference_manual.pdf"  
+    pdf_url = "https://data.cyverse.org/dav-anon/iplant/home/efeaydin/reference_manual.pdf"  
 
     pdf_display = f'''
     <iframe src="{pdf_url}" width="100%" height="900px" style="border: none;"></iframe>

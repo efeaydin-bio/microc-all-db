@@ -105,11 +105,12 @@ def pdf_page():
 
     pdf_url = "https://data.cyverse.org/dav-anon/iplant/home/efeaydin/reference_manual.pdf"
 
-    # Styled link that opens in a new tab
+    # Automatically open PDF in new tab on page load
     st.markdown(f'''
-        <a href="{pdf_url}" target="_blank">
-            <button style="padding: 0.5rem 1rem; font-size: 1rem;">📖 Open Reference Manual in New Tab</button>
-        </a>
+        <script>
+            window.open("{pdf_url}", "_blank");
+        </script>
+        <p>If the reference manual didn’t open automatically, <a href="{pdf_url}" target="_blank">click here</a>.</p>
     ''', unsafe_allow_html=True)
 
     if st.button("Back to Info Page"):

@@ -15,7 +15,6 @@ import os
 
 
 # -------- Configuration --------
-REFERENCE_MANUAL_PATH = os.path.join("data", "reference_manual.pdf")
 
 # streamlit secrets
 PASSWORD = st.secrets.get("password", "defaultpassword")  
@@ -24,6 +23,11 @@ PASSWORD = st.secrets.get("password", "defaultpassword")
 
 
 def main_page():
+    # get Info logic first to avoird rerun after query
+    if st.sidebar.button("Get Info", key="early_get_info"):
+        st.session_state.page = "info_page"
+        st.rerun()
+
     st.title("Micro-C derived CREs in ALL")
     st.write("This database contains whole-genome interaction maps of pediatric ALL derived from MicroC experiments performed on 35 primary samples")
 
@@ -68,9 +72,7 @@ def main_page():
                 st.error("Only numeric values are allowed for start and end positions.")
     
     st.sidebar.markdown("---")
-    if st.sidebar.button("Get Info"):
-        st.session_state.page = "info_page"
-        st.rerun()
+    st.sidebar.button("Get Info", key="visual_get_info") 
 
 def info_page():
     st.header("Micro-C derived CRE database for pediatric ALL")

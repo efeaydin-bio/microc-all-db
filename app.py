@@ -28,7 +28,8 @@ def main_page():
     if st.sidebar.button("Get Info"):
         st.session_state.page = "info_page"
         st.rerun()
-
+    st.sidebar.markdown("---")
+    
     st.title("Micro-C derived CREs in ALL")
     st.write("This database contains whole-genome interaction maps of pediatric ALL derived from MicroC experiments performed on 35 primary samples")
 

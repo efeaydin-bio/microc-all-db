@@ -122,7 +122,7 @@ def pdf_page():
     '''
 
 
-    st.markdown(pdf_display, unsafe_allow_html=True)
+    st.markdown(pdf_display, unsafe_allow_html=False)
     
 
     if st.button("Back to Info Page"):

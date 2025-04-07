@@ -111,8 +111,14 @@ def pdf_page():
     with open(REFERENCE_MANUAL_PATH, "rb") as pdf_file:
         base64_pdf = base64.b64encode(pdf_file.read()).decode("utf-8")
 
+  #  pdf_display = f'''
+   # <iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="900px" style="border: none;"></iframe>
+    #'''
+
+    pdf_url = "reference_manual.pdf"  
+
     pdf_display = f'''
-    <iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="900px" style="border: none;"></iframe>
+    <iframe src="{pdf_url}" width="100%" height="900px" style="border: none;"></iframe>
     '''
 
 

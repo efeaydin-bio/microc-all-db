@@ -23,8 +23,9 @@ PASSWORD = st.secrets.get("password", "defaultpassword")
 
 
 def main_page():
-    # get Info logic first to avoird rerun after query
-    if st.sidebar.button("Get Info", key="early_get_info"):
+
+    st.sidebar.markdown("---")
+    if st.sidebar.button("Get Info"):
         st.session_state.page = "info_page"
         st.rerun()
 
@@ -70,9 +71,6 @@ def main_page():
                     locAnalyzer(subChoice, resolution, chr_input, start_input, end_input, cre_index)
             except ValueError:
                 st.error("Only numeric values are allowed for start and end positions.")
-    
-    st.sidebar.markdown("---")
-    st.sidebar.button("Get Info", key="visual_get_info") 
 
 def info_page():
     st.header("Micro-C derived CRE database for pediatric ALL")

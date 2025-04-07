@@ -101,15 +101,15 @@ def info_page():
             st.rerun()
 
 def pdf_page():
-    st.title("Reference Manual")
+ #   st.title("Reference Manual")
 
 
-    if not os.path.exists(REFERENCE_MANUAL_PATH):
-        st.error("Reference manual not found. Please place 'reference_manual.pdf' in the 'data/' folder.")
-        return
+  #  if not os.path.exists(REFERENCE_MANUAL_PATH):
+       # st.error("Reference manual not found. Please place 'reference_manual.pdf' in the 'data/' folder.")
+      #  return
 
-    with open(REFERENCE_MANUAL_PATH, "rb") as pdf_file:
-        base64_pdf = base64.b64encode(pdf_file.read()).decode("utf-8")
+    #with open(REFERENCE_MANUAL_PATH, "rb") as pdf_file:
+     #   base64_pdf = base64.b64encode(pdf_file.read()).decode("utf-8")
 
   #  pdf_display = f'''
    # <iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="900px" style="border: none;"></iframe>
@@ -117,17 +117,20 @@ def pdf_page():
 
     pdf_url = "https://data.cyverse.org/dav-anon/iplant/home/efeaydin/reference_manual.pdf"  
 
-    pdf_display = f'''
-    <iframe src="{pdf_url}" width="100%" height="900px" style="border: none;"></iframe>
+    # JavaScript to open in a new tab
+    open_js = f'''
+    <script>
+        window.open("{pdf_url}", "_blank").focus();
+    </script>
     '''
-
-
-    st.markdown(pdf_display, unsafe_allow_html=True)
     
+    if st.button("📖 Open Reference Manual in New Tab"):
+        st.markdown(open_js, unsafe_allow_html=True)
 
     if st.button("Back to Info Page"):
         st.session_state.page = "info_page"
         st.rerun()
+
 
 def login():
     st.title("Login")

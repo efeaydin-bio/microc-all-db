@@ -474,10 +474,13 @@ def locAnalyzer(subChoice, res, myChr, myStart, myEnd, cre_index):
         else:
             st.write("The following additional loop interactions were also found:")
             seen = set()
+            enhancer_set = set(f"{row['chr']}:{row['start']}-{row['end']}" for _, row in unique_enhancers.iterrows())
             for _, row in myDf_all.iterrows():
                 anchor1 = f"{row['chr']}:{row['start']}-{row['end']}"
                 anchor2 = f"{row['interChr']}:{row['interStart']}-{row['interEnd']}"
                 sorted_pair = tuple(sorted([anchor1, anchor2]))
+                if anchor1 in enhancer_set or anchor2 in enhancer_set:
+                    continue
                 if sorted_pair not in seen:
                     seen.add(sorted_pair)
                     st.write(f"{sorted_pair[0]}    {sorted_pair[1]}")

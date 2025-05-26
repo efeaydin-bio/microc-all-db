@@ -354,7 +354,7 @@ def locAnalyzer(subChoice, res, myChr, myStart, myEnd, cre_index):
     myDf_all = pd.DataFrame(myList, columns=['chr', 'start', 'end', 'target', 'interChr', 'interStart', 'interEnd', 'type'])
     myDf = myDf_all[(myDf_all['type'] == "CRE") & (myDf_all['target'] != "no")].iloc[:, :7].drop_duplicates()
     #myDf_all = myDf_all[myDf_all['target'] == "no"]
-    myDf_all = myDf_all[myDf_all['target'] == "no" & myDf_all['type'] != "CRE"]
+    myDf_all = myDf_all[(myDf_all['target'] == "no") & (myDf_all['type'] != "CRE")]
 
     if myDf.empty:
         st.write("No regulatory loops were found for this location")

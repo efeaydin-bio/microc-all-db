@@ -25,10 +25,10 @@ TRACKS_DIR = os.path.join(os.getcwd(), "tracks")
 # -------------------- Load Required Data --------------------
 
 coding_genes_path = os.path.join(DATA_DIR, "coding_genes2")
-all_loops_path = os.path.join(DATA_DIR, "concat_loops.tab")
+all_loops_path = os.path.join(DATA_DIR, "all_loops.tab")
 
 if not os.path.exists(coding_genes_path) or not os.path.exists(all_loops_path):
-    st.error("Required input files not found. Please place 'coding_genes2' and 'concat_loops.tab' in the 'data/' folder.")
+    st.error("Required input files not found. Please place 'coding_genes2' and 'all_loops.tab' in the 'data/' folder.")
     st.stop()
 
 coding_genes = pd.read_csv(coding_genes_path, sep="\t")

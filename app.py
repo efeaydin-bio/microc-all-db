@@ -103,7 +103,7 @@ def info_page():
 def pdf_page():
     st.title("Reference Manual")
 
-    pdf_url = "https://data.cyverse.org/dav-anon/iplant/home/efeaydin/reference_manual.pdf"
+    pdf_url = "https://data.cyverse.org/dav-anon/iplant/home/efeaydin/user_guide.pdf"
 
     # Automatically open PDF in new tab on page load
     st.markdown(f'''

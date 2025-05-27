@@ -81,10 +81,10 @@ def info_page():
 
     See reference manual for information on usage and content.
 
-    If you use this app in your research, please cite:
-    []
 
     Contact:
+    
+    Aneuploidy in cancer Lab
     Division of Clinical Genetics, Lund University Faculty of Medicine  
     BMC, C13  
     221 84 Lund, Sweden

@@ -361,7 +361,7 @@ def locAnalyzer(subChoice, res, myChr, myStart, myEnd, cre_index):
         return
 
     unique_enhancers = myDf[['chr', 'start', 'end']].drop_duplicates()
-    st.write(f"There are {len(unique_enhancers)} regulatory loops identified in this region")
+    st.write(f"There are {len(unique_enhancers)} cis-regulatory elements found in this region")
 
     if "show_enhancers" not in st.session_state:
         st.session_state.show_enhancers = False

@@ -14,7 +14,7 @@ Users can explore chromatin loops:
 
 A detailed guide to the app features, usage examples, and query types is available in the reference manual:
 
-👉 [View the Reference Manual](https://data.cyverse.org/dav-anon/iplant/home/efeaydin/reference_manual.pdf)
+👉 [View the Reference Manual](https://data.cyverse.org/dav-anon/iplant/home/efeaydin/user_guide.pdf)
 
 ---
 

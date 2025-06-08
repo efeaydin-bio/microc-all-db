@@ -55,11 +55,18 @@ def fetch_bigwig_locally(url):
 @st.cache_resource
 def load_bigwig_tracks():
     bw_files = {
-        "h3k4me1": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k4me1.bigWig"),
-        "h3k4me3": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k4me3.bigWig"),
-        "h3k27ac": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27ac.bigWig"),
-        "h3k27me3": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27me3.bigWig"),
-        "dnase": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/dnase.bigWig"),
+       # "h3k4me1": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k4me1.bigWig"),
+        #"h3k4me3": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k4me3.bigWig"),
+        #"h3k27ac": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27ac.bigWig"),
+        #"h3k27me3": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/h3k27me3.bigWig"),
+        #"dnase": fetch_bigwig_locally("https://data.cyverse.org/dav-anon/iplant/home/efeaydin/dnase.bigWig"),
+
+        # alternative links
+        "h3k4me1": fetch_bigwig_locally("https://www.encodeproject.org/files/ENCFF836XOQ/@@download/ENCFF836XOQ.bigWig"),
+        "h3k4me3": fetch_bigwig_locally("https://www.encodeproject.org/files/ENCFF321DZL/@@download/ENCFF321DZL.bigWig"),
+        "h3k27ac": fetch_bigwig_locally("https://www.encodeproject.org/files/ENCFF087YCU/@@download/ENCFF087YCU.bigWig"),
+        "h3k27me3": fetch_bigwig_locally("https://www.encodeproject.org/files/ENCFF211VQW/@@download/ENCFF211VQW.bigWig"),
+        "dnase": fetch_bigwig_locally("https://www.encodeproject.org/files/ENCFF743ULW/@@download/ENCFF743ULW.bigWig"),
     }
 
     return {key: pyBigWig.open(path) for key, path in bw_files.items()}

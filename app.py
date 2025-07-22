@@ -17,7 +17,7 @@ import os
 # -------- Configuration --------
 
 # streamlit secrets
-PASSWORD = st.secrets.get("password", "defaultpassword")  
+#PASSWORD = st.secrets.get("password", "defaultpassword")  
 
 # -------- Pages --------
 
@@ -117,27 +117,27 @@ def pdf_page():
         st.session_state.page = "info_page"
         st.rerun()
 
-def login():
-    st.title("Login")
-    password_input = st.text_input("Enter Password:", type="password")
-    if st.button("Login"):
-        if password_input == PASSWORD:
-            st.session_state.authenticated = True
-            st.session_state.page = "info_page"
-            st.rerun()
-        else:
-            st.error("Incorrect password. Please try again.")
+#def login():
+ #   st.title("Login")
+  #  password_input = st.text_input("Enter Password:", type="password")
+   # if st.button("Login"):
+    #    if password_input == PASSWORD:
+     #       st.session_state.authenticated = True
+      #      st.session_state.page = "info_page"
+       #     st.rerun()
+        #else:
+         #   st.error("Incorrect password. Please try again.")
 
 def main():
-    if "authenticated" not in st.session_state:
-        st.session_state.authenticated = False
+   # if "authenticated" not in st.session_state:
+    #    st.session_state.authenticated = False
 
     if "page" not in st.session_state:
-        st.session_state.page = "login"
+        st.session_state.page = "info_page"
 
-    if not st.session_state.authenticated:
-        login()
-        return
+   # if not st.session_state.authenticated:
+    #    login()
+     #   return
 
     if st.session_state.page == "info_page":
         info_page()

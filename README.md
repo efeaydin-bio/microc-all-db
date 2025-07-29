@@ -21,7 +21,7 @@ A detailed guide to the app features, usage examples, and query types is availab
 ## 📄 Original Study
 
 
-👉 [Insert publication link here]
+👉 https://www.biorxiv.org/content/10.1101/2025.07.22.666073v1
 
 ---
 

@@ -68,12 +68,6 @@ For offline use and faster local performance, a fully self-contained Docker Imag
 
 ---
 
-### 💻 Manual Run (Offline)
-
-Alternatively, you can clone the repository and run the app locally with:
-
-```streamlit run app.py```
----
 
 
 

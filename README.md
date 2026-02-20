@@ -27,7 +27,7 @@ A detailed guide to the app features, usage examples, and query types is availab
 
 ## 🛠️ Pre-requisites
 ### ✅ No Installation (Recommended)
-The app can be accessed directly online via Streamlit Cloud — no installation or system configuration required.
+The app can be accessed directly via the web interface — no installation or system configuration required.
 
 ### 💻 Run Locally (Advanced)
 

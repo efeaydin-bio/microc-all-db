@@ -56,7 +56,7 @@ pybedtools == 0.9.0
 
 ### 🌐 Web App (Online)
 
-You can access the app online (no installation required) via Streamlit Cloud:
+You can access the application directly in your browser (no installation required):
 
 🔗 [https://microcdb.serve.scilifelab.se](https://microcdb.serve.scilifelab.se)
 
